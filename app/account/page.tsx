@@ -1,5 +1,6 @@
 import SignIn from "../_components/SignIn";
 import SignOut from "../_components/SignOut";
+import Transactions from "../_components/Transactions";
 import { auth } from "../_lib/auth";
 
 export default async function Account() {
@@ -14,6 +15,7 @@ export default async function Account() {
       <h1>Account</h1>
       <p>Welcome {user?.name}</p>
       <SignOut />
+      <Transactions />
     </div>
   );
 }
