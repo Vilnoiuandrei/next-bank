@@ -14,7 +14,6 @@ export async function POST(req) {
   if (!amount || isNaN(amount) || amount <= 0) {
     return NextResponse.json({ error: "Invalid amount" }, { status: 400 });
   }
-  console.log(session.user.email);
   const client = await clientPromise;
   const db = client.db("nextjs_bank");
   const user = await db

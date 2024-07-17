@@ -1,10 +1,10 @@
 import clientPromise from "@/app/_lib/mongoDB";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/_lib/auth";
+import { auth } from "@/app/_lib/auth";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
   const { amount, recipient } = await req.json();
+  const session = await auth();
 
   if (!amount || !recipient) {
     return NextResponse.json(
@@ -12,8 +12,6 @@ export async function POST(req) {
       { status: 400 }
     );
   }
-
-  const session = await getServerSession(req, authOptions);
 
   if (!session) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
@@ -46,20 +44,24 @@ export async function POST(req) {
     });
 
     // Add the amount to the recipient's balance
-    const creditResult = await db
+    await db
       .collection("users")
       .updateOne({ email: recipient }, { $inc: { balance: amount } });
 
-    if (creditResult.modifiedCount === 0) {
-      // Rollback debit if credit fails
-      await db
-        .collection("users")
-        .updateOne({ email }, { $inc: { balance: amount } });
-      return NextResponse.json(
-        { message: "Failed to credit recipient's account" },
-        { status: 500 }
-      );
-    }
+    // How to make it work only for exsitnet recipent
+    //
+    //
+    // if (creditResult.modifiedCount === 0) {
+    //   // Rollback debit if credit fails
+    //   await db
+    //     .collection("users")
+    //     .updateOne({ email }, { $inc: { balance: amount } });
+    //
+    //   return NextResponse.json(
+    //     { message: "Failed to credit recipient's account" },
+    //     { status: 500 }
+    //   );
+    // }
 
     // Create transaction for the recipient
     await db.collection("transactions").insertOne({
