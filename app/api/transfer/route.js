@@ -1,22 +1,22 @@
 import clientPromise from "@/app/_lib/mongoDB";
-import { auth } from "@/app/_lib/auth";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/_lib/auth";
+import { NextResponse } from "next/server";
 
 export async function POST(req) {
   const { amount, recipient } = await req.json();
 
   if (!amount || !recipient) {
-    return new Response(
-      JSON.stringify({ message: "Missing required fields" }),
+    return NextResponse.json(
+      { message: "Missing required fields" },
       { status: 400 }
     );
   }
 
-  const session = await auth();
+  const session = await getServerSession(req, authOptions);
 
   if (!session) {
-    return new Response(JSON.stringify({ message: "Unauthorized" }), {
-      status: 401,
-    });
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
   const email = session.user.email;
@@ -26,22 +26,42 @@ export async function POST(req) {
     const db = client.db("nextjs_bank");
 
     // Deduct the amount from the current user's balance
-    await db
+    const debitResult = await db
       .collection("users")
       .updateOne({ email }, { $inc: { balance: -amount } });
 
-    //Crate transaction for the current user
+    if (debitResult.modifiedCount === 0) {
+      return NextResponse.json(
+        { message: "Failed to debit user's account" },
+        { status: 500 }
+      );
+    }
+
+    // Create transaction for the current user
     await db.collection("transactions").insertOne({
       type: "transfer",
       amount,
       email,
       date: new Date(),
     });
+
     // Add the amount to the recipient's balance
-    await db
+    const creditResult = await db
       .collection("users")
       .updateOne({ email: recipient }, { $inc: { balance: amount } });
-    //Crate transaction for the current user
+
+    if (creditResult.modifiedCount === 0) {
+      // Rollback debit if credit fails
+      await db
+        .collection("users")
+        .updateOne({ email }, { $inc: { balance: amount } });
+      return NextResponse.json(
+        { message: "Failed to credit recipient's account" },
+        { status: 500 }
+      );
+    }
+
+    // Create transaction for the recipient
     await db.collection("transactions").insertOne({
       type: "transfer",
       amount,
@@ -49,13 +69,15 @@ export async function POST(req) {
       date: new Date(),
     });
 
-    return new Response(JSON.stringify({ message: "Transfer successful" }), {
-      status: 200,
-    });
+    return NextResponse.json(
+      { message: "Transfer successful" },
+      { status: 200 }
+    );
   } catch (error) {
     console.error("Transfer error:", error);
-    return new Response(JSON.stringify({ message: "Internal server error" }), {
-      status: 500,
-    });
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500 }
+    );
   }
 }

@@ -9,29 +9,32 @@ export default function Transfer() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (recipient.length < 5) {
+      alert("Please introduce a recipient !");
+    } else {
+      try {
+        const res = await fetch("/api/transfer", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            amount: parseFloat(amount),
+            recipient,
+          }),
+        });
 
-    try {
-      const response = await fetch("/api/transfer", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          amount: parseFloat(amount),
-          recipient,
-        }),
-      });
-
-      if (response.ok) {
-        alert("Transfer successful");
-        //Reset form
-        setAmount("");
-        setRecipient("");
-        setError("");
+        if (res.ok) {
+          alert("Transfer successful");
+          //Reset form
+          setAmount("");
+          setRecipient("");
+          setError("");
+        }
+      } catch (err: any) {
+        setError(err);
+        alert(error);
       }
-    } catch (err: any) {
-      setError(err);
-      alert(error);
     }
   };
 
