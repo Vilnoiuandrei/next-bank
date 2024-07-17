@@ -1,7 +1,8 @@
 import Loan from "../_components/LoanRequest";
 import SignIn from "../_components/SignIn";
 import SignOut from "../_components/SignOut";
-import Transactions from "../_components/Transactions";
+import Transactions from "../_components/Transaction";
+import TransactionsList from "../_components/TransactionsList";
 import Transfer from "../_components/TransferRequest";
 import { auth } from "../_lib/auth";
 
@@ -13,12 +14,15 @@ export default async function Account() {
   }
   return (
     <div>
-      <h1>Account</h1>
-      <p>Welcome {user?.name}</p>
-
-      <Transfer />
-      <Loan />
-      <SignOut />
+      <div className="flex items-center justify-between py-4 gap-2">
+        <h1 className="text-3xl text-clip px-6">Welcome {user?.name}</h1>
+        <SignOut />
+      </div>
+      <div className="flex justify-around mt-4 sm:flex-col ">
+        <TransactionsList />
+        <Transfer />
+        <Loan />
+      </div>
     </div>
   );
 }

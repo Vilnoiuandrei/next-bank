@@ -32,7 +32,7 @@ export default function Loan() {
   };
 
   return (
-    <div className="w-52 border-4 border-customLight rounded-lg ">
+    <div className="w-52 border-4 border-customLight rounded-lg lg:w-72 xl:w-80 h-40">
       <h3 className="text-3xl text-center mb-1">Loan</h3>
       <form
         onSubmit={handleSubmit}

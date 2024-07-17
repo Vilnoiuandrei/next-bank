@@ -83,3 +83,32 @@ export async function POST(req) {
     );
   }
 }
+
+export async function GET() {
+  const session = await auth();
+
+  if (!session) {
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+  }
+
+  const email = session.user.email;
+
+  try {
+    const client = await clientPromise;
+    const db = client.db("nextjs_bank");
+
+    const transactions = await db
+      .collection("transactions")
+      .find({ email })
+      .toArray();
+    console.log(transactions);
+
+    return NextResponse.json({ transactions }, { status: 200 });
+  } catch (error) {
+    console.error("Fetch transactions error:", error);
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500 }
+    );
+  }
+}

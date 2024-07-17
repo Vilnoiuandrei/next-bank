@@ -39,7 +39,7 @@ export default function Transfer() {
   };
 
   return (
-    <div className="w-52 border-4 border-customLight rounded-lg ">
+    <div className="w-52 border-4 border-customLight rounded-lg lg:w-72 xl:w-80 h-56">
       <h3 className="text-3xl text-center mb-1">Transfer</h3>
       <form
         onSubmit={handleSubmit}
@@ -51,7 +51,7 @@ export default function Transfer() {
           placeholder="Amount"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
-          className="border p-2 rounded-sm"
+          className="border p-2 rounded-sm "
         />
         <input
           type="email"
