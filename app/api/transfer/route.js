@@ -100,8 +100,8 @@ export async function GET() {
     const transactions = await db
       .collection("transactions")
       .find({ email })
+      .sort({ date: -1 })
       .toArray();
-    console.log(transactions);
 
     return NextResponse.json({ transactions }, { status: 200 });
   } catch (error) {

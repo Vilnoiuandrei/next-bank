@@ -1,10 +1,11 @@
+import { Suspense } from "react";
 import Loan from "../_components/LoanRequest";
 import SignIn from "../_components/SignIn";
 import SignOut from "../_components/SignOut";
-import Transactions from "../_components/Transaction";
 import TransactionsList from "../_components/TransactionsList";
 import Transfer from "../_components/TransferRequest";
 import { auth } from "../_lib/auth";
+import Loading from "../_components/Loading";
 
 export default async function Account() {
   const session = await auth();
@@ -14,15 +15,18 @@ export default async function Account() {
   }
   return (
     <div>
-      <div className="flex items-center justify-between py-4 gap-2">
-        <h1 className="text-3xl text-clip px-6">Welcome {user?.name}</h1>
-        <SignOut />
-      </div>
-      <div className="flex justify-around mt-4 sm:flex-col ">
-        <TransactionsList />
-        <Transfer />
-        <Loan />
-      </div>
+      <Suspense fallback={<Loading />}>
+        <div className="flex items-center justify-between py-4 gap-2">
+          <h1 className="text-3xl text-clip px-6">Welcome {user?.name}</h1>
+          <SignOut />
+        </div>
+        <div className="flex justify-around mt-4 sm:flex-col ">
+          <TransactionsList />
+
+          <Transfer />
+          <Loan />
+        </div>
+      </Suspense>
     </div>
   );
 }
