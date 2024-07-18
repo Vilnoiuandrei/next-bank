@@ -1,9 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
 import Transaction from "./Transaction";
+import Loading from "./Loading";
 
 export default function TransactionsList() {
   const [transactions, setTransactions] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
@@ -18,11 +21,16 @@ export default function TransactionsList() {
       } catch (error) {
         console.error("Error fetching transactions:", error);
         alert("Failed to fetch transactions");
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchTransactions();
   }, []);
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <div className="border-4 border-customLight rounded-lg">
       <h3 className=" text-3xl text-center">Transactions</h3>
