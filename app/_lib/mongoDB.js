@@ -20,14 +20,31 @@ if (process.env.NODE_ENV === "development") {
   // In development, use a global variable so we can reuse the client across module reloads
   if (!global._mongoClientPromise) {
     client = new MongoClient(uri, options);
-    global._mongoClientPromise = client.connect();
+    global._mongoClientPromise = client
+      .connect()
+      .then((client) => {
+        console.log("Successfully connected to MongoDB in development");
+        return client;
+      })
+      .catch((err) => {
+        console.error("MongoDB connection error in development:", err);
+        throw err;
+      });
   }
   clientPromise = global._mongoClientPromise;
-  console.log("coneteing to mongoDB");
 } else {
   // In production, create a new client
   client = new MongoClient(uri, options);
-  clientPromise = client.connect();
+  clientPromise = client
+    .connect()
+    .then((client) => {
+      console.log("Successfully connected to MongoDB in production");
+      return client;
+    })
+    .catch((err) => {
+      console.error("MongoDB connection error in production:", err);
+      throw err;
+    });
 }
 
 export default clientPromise;
