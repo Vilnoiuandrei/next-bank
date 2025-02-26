@@ -1,7 +1,7 @@
 import Navigation from "./_components/Navigation";
-import { Inter } from "@next/font/google";
-const inter = Inter({ subsets: ["latin"], display: "swap" });
 import "@/app/_styles/globals.css";
+import { Inter } from "next/font/google";
+const inter = Inter({ subsets: ["latin"], display: "swap" });
 
 export const metadata = {
   title: "NextBank",
