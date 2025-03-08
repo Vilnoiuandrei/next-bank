@@ -1,10 +1,10 @@
 import Balance from "../_components/Balance";
 import Loan from "../_components/LoanRequest";
-import Transfer from "../_components/TransferRequest";
 import SignIn from "../_components/SignIn";
 import SignOut from "../_components/SignOut";
 import TransactionsList from "../_components/TransactionsList";
 import { auth } from "../_lib/auth";
+import Link from "next/link";
 
 export default async function Account() {
   const session = await auth();
@@ -25,9 +25,11 @@ export default async function Account() {
           <button className="bg-customLight text-customDark  h-10 w-52 shadow-md rounded-md ">
             Loan
           </button>
-          <button className="bg-customLight text-customDark  h-10 w-52 shadow-md rounded-md ">
-            Transfer
-          </button>
+          <Link href="/transfer">
+            <button className="bg-customLight text-customDark  h-10 w-52 shadow-md rounded-md ">
+              Transfer
+            </button>
+          </Link>
           <SignOut />
         </div>
         <TransactionsList />
