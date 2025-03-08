@@ -21,7 +21,6 @@ export async function POST(req) {
     .findOne({ email: session.user.email });
 
   const requiredBalance = amount * 0.3;
-  console.log(user);
 
   if (user.balance >= requiredBalance) {
     await db
