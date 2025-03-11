@@ -34,7 +34,7 @@ export default function TransactionsList() {
   return (
     <div className="border-4 border-customLight rounded-lg">
       <h3 className=" text-3xl text-center">Transactions</h3>
-      <div className="max-h-96 overflow-y-auto px-4 py-4">
+      <div className="max-h-96 overflow-y-auto p-4">
         <ul className="space-y-2">
           {transactions.map((transaction: any) => (
             <Transaction key={transaction._id} transaction={transaction} />

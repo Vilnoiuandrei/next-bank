@@ -9,7 +9,7 @@ export default function Transaction({ transaction }: any) {
     return `${day}-${month}-${year}`;
   }
   return (
-    <li className="bg-white shadow-md rounded-lg p-4 border-l-4 border-red-700 text-customDark2 flex gap-8 w-96 justify-between items-center">
+    <li className="bg-white shadow-md rounded-lg p-4 border-l-4 border-red-700 text-customDark2 flex gap-8 sm:w-52 md:w-72 lg:w-80  justify-between items-center">
       <div>{transaction.amount}$</div>
       <div>{transaction.type}</div>
       <div>{formatDate(transaction.date)}</div>

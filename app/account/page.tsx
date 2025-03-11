@@ -20,7 +20,7 @@ export default async function Account() {
         </h1>
       </div>
       <div className="flex flex-col md:flex-row justify-around items-center gap-4 mt-4  ">
-        <div className=" flex flex-col gap-3 w-72">
+        <div className=" flex flex-col gap-3 w-72 justify-center items-center">
           <Balance />
           <Link href={"/loan"}>
             <button className="bg-customLight text-customDark  h-10 w-52 shadow-md rounded-md ">
