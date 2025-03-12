@@ -1,7 +1,7 @@
 function About() {
   return (
     <div>
-      <section className=" py-20">
+      <section className=" py-10">
         <div className="max-w-screen-lg mx-auto px-4">
           <h1 className="text-4xl font-bold text-center mb-8">About Us</h1>
           <p className="text-lg mb-8">

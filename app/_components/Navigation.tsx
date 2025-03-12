@@ -9,7 +9,7 @@ function Navigation() {
             NextBank
           </Link>
         </div>
-        <ul className="flex gap-12 items-center justify-between px-8 py-4">
+        <ul className="flex gap-12 items-center justify-between py-4">
           <li>
             <Link
               href="/about"
