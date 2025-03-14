@@ -2,9 +2,9 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="min-h-screen ">
+    <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="bg-customDark text-customLight py-20">
+      <section className="bg-customDark text-customLight py-20 px-2">
         <div className="container mx-auto text-center">
           <h1 className="text-4xl font-bold mb-4">Welcome to Our Bank</h1>
           <p className="text-lg mb-8">
@@ -39,7 +39,7 @@ export default function Home() {
       </section>
 
       {/* Customer Testimonials */}
-      <section className="container mx-auto py-20">
+      <section className="container mx-auto py-20 px-4">
         <h2 className="text-3xl font-bold text-center mb-10">
           What Our Customers Say
         </h2>
