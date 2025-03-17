@@ -39,7 +39,7 @@ export default function Transfer() {
   };
 
   return (
-    <div className="md:w-80 border-4 border-customLight rounded-lg lg:w-96 w-72  mt-4">
+    <div className="md:w-80 border-4 border-customLight rounded-lg lg:w-96 w-72  mt-12">
       <h3 className="text-3xl text-center mb-1">Transfer</h3>
       <form
         onSubmit={handleSubmit}

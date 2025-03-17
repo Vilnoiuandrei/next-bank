@@ -1,6 +1,9 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import { FaHome } from "react-icons/fa";
+import { MdAccountCircle } from "react-icons/md";
+import { IoIosInformationCircle } from "react-icons/io";
 
 function Navigation() {
   // For mobile menu toggle
@@ -57,8 +60,9 @@ function Navigation() {
               <Link
                 onClick={togglePopup}
                 href="/"
-                className="hover:text-hoverLight transition-colors"
+                className="hover:text-hoverLight transition-colors flex items-center gap-1"
               >
+                <FaHome />
                 Home
               </Link>
             </li>
@@ -66,8 +70,9 @@ function Navigation() {
               <Link
                 onClick={togglePopup}
                 href="/about"
-                className="hover:text-hoverLight transition-colors"
+                className="hover:text-hoverLight transition-colors flex items-center gap-1"
               >
+                <IoIosInformationCircle />
                 About Us
               </Link>
             </li>
@@ -75,8 +80,9 @@ function Navigation() {
               <Link
                 onClick={togglePopup}
                 href="/account"
-                className="hover:text-hoverLight transition-colors"
+                className="hover:text-hoverLight transition-colors flex items-center gap-1"
               >
+                <MdAccountCircle />
                 Account
               </Link>
             </li>
