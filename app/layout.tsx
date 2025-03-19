@@ -1,4 +1,5 @@
 import Navigation from "./_components/Navigation";
+import ReactQueryProvider from "./_lib/providers";
 import "@/app/_styles/globals.css";
 import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"], display: "swap" });
@@ -19,8 +20,10 @@ export default function RootLayout({
       <body
         className={`${inter.className} bg-customDark text-customLight min-h-screen  `}
       >
-        <Navigation />
-        <main> {children}</main>
+        <ReactQueryProvider>
+          <Navigation />
+          <main> {children}</main>
+        </ReactQueryProvider>
       </body>
     </html>
   );
