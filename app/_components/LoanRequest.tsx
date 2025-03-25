@@ -1,34 +1,47 @@
 "use client";
 
 import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+
+async function fetchLoan({ amount }: { amount: string }) {
+  const res = await fetch("/api/loan", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      amount: parseFloat(amount),
+    }),
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to process the loan request");
+  }
+
+  return res.json();
+}
 
 export default function Loan() {
   const [amount, setAmount] = useState("");
-  const [error, setError] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const loanMutation = useMutation({
+    mutationFn: fetchLoan,
+    onSuccess: () => {
+      setAmount("");
+      alert("Loan approved and balance updated!");
+    },
+    onError: (error: any) => {
+      alert(error.message || "An error occurred during the loan request.");
+    },
+  });
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      const res = await fetch("/api/loan", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          amount: parseFloat(amount),
-        }),
-      });
-      console.log(res);
-
-      if (res.ok) {
-        alert("Loan approved and balance updated");
-        // Reset form
-        setAmount("");
-      }
-    } catch (err: any) {
-      setError(err);
-      alert(error);
+    if (!amount) {
+      alert("Please enter an amount.");
+      return;
     }
+    loanMutation.mutate({ amount });
   };
 
   return (
